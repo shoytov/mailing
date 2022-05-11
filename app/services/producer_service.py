@@ -9,7 +9,7 @@ class AbstractProducerService(ABC):
 		self.queue = queue
 
 	@abstractmethod
-	async def publish_message(self, data: MessageToSend) -> None:
+	async def publish_message(self, data: MessageToSend) -> bool:
 		"""
 		Send message to queue.
 		"""
@@ -17,5 +17,5 @@ class AbstractProducerService(ABC):
 
 
 class ProducerService(AbstractProducerService):
-	async def publish_message(self, data: MessageToSend) -> None:
-		await self.queue.publish_message(data)
+	async def publish_message(self, data: MessageToSend) -> bool:
+		return await self.queue.publish_message(data)

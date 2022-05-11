@@ -6,6 +6,7 @@ from app.domain.entities.message_to_send import MessageToSend
 
 class AbstractQueueRepository(ABC):
 	consumer: Any
+	producer: Any
 
 	@abstractmethod
 	def __init__(self):
@@ -15,7 +16,7 @@ class AbstractQueueRepository(ABC):
 		raise NotImplementedError()
 
 	@abstractmethod
-	async def publish_message(self, data: MessageToSend) -> None:
+	async def publish_message(self, data: MessageToSend) -> bool:
 		"""
 		Send message to queue.
 		"""

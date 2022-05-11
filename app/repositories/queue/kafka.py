@@ -31,7 +31,7 @@ class KafkaRepository(AbstractQueueRepository):
 			value_serializer=lambda x: json.dumps(x).encode('utf-8')
 		)
 
-	async def publish_message(self, data: MessageToSend) -> None:
+	async def publish_message(self, data: MessageToSend) -> bool:
 		"""
 		Send message to queue.
 		"""
@@ -41,6 +41,9 @@ class KafkaRepository(AbstractQueueRepository):
 
 		try:
 			await self.producer.send(KAFKA_TOPIC, value=data)
+			return True
+		except Exception as e:
+			return False
 		finally:
 			await self.producer.stop()
 
